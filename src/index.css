@@ -22,3 +22,16 @@
 body {
   margin: 0;
 }
+
+/* Custom filter icon color for StockDetails table */
+.custom-filter-table .ant-table-filter-trigger {
+  color: white !important;
+}
+
+.custom-filter-table .ant-table-filter-trigger:hover {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.custom-filter-table .ant-table-filter-trigger-container-open .ant-table-filter-trigger {
+  color: white !important;
+}

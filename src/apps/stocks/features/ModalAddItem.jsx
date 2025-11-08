@@ -24,7 +24,7 @@ export default function ModalAddItem({ open, handleOk }) {
   useEffect(() => {
     form.resetFields();
     setFileList([]);
-  }, []);
+  }, [open, form]);
 
   const layout = {
     labelCol: { span: 8 },

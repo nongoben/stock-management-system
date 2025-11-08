@@ -145,7 +145,7 @@ export default function ModalAddOrder({ open, handleOk }) {
           name={["image"]}
           rules={[{ required: false }]}
         >
-          <Image src={previewImage} />
+          <Image width={"250px"} height={"150px"} src={previewImage} />
         </Form.Item>
         <Form.Item name={["price"]} label="ราคา">
           <Input disabled />
