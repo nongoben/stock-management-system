@@ -8,10 +8,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import Home from "./apps/home";
 import Stock from "./apps/stocks";
 import Order from "./apps/orders";
-import Report from "./apps/reports";
 
 const { Header, Content, Footer, Sider } = Layout;
 const siderStyle = {

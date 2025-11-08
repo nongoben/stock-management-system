@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Form, Input, Image, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
+import { useUpdateStock } from "@Hooks/useStocksApi";
 
 export default function ModalEditItem() {
-  const { stockDataSource, setStockDataSource, editingKey, setEditingKey } =
-    useFetchApiStore((state) => ({
+  const { stockDataSource, editingKey, setEditingKey } = useFetchApiStore(
+    (state) => ({
       editingKey: state.editingKey,
       setEditingKey: state.setEditingKey,
-      setStockDataSource: state.setStockDataSource,
       stockDataSource: state.stockDataSource,
-    }));
+    })
+  );
+
+  const updateStock = useUpdateStock();
 
   const [open, setOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -18,7 +21,6 @@ export default function ModalEditItem() {
   const [fileList, setFileList] = useState([]);
 
   const [form] = Form.useForm();
-  console.log("fileList:", fileList);
 
   const itemToEdit = stockDataSource.find((item) => item.key === editingKey);
 
@@ -73,22 +75,30 @@ export default function ModalEditItem() {
     setEditingKey(null);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const newItem = {
-      key: Date.now(),
-      itemImage: values?.itemImage,
-      itemCode: itemToEdit?.itemCode,
-      itemName: values.itemName,
+      id: itemToEdit?.key,
+      productCode: values?.itemCode,
+      name: values?.itemName,
+      image: values?.itemImage,
       category: "General",
-      quantity: values.quantity,
-      price: values.price,
+      quantity: values?.quantity,
+      price: values?.price,
+      createdAt: itemToEdit?.createdAt && new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
-    const updatedData = stockDataSource.map((item) =>
-      item.key === editingKey ? { ...item, ...newItem } : item
-    );
-    setStockDataSource(updatedData);
-    setFileList([]);
-    handleOk();
+
+    try {
+      await updateStock.mutateAsync({
+        id: itemToEdit?.key,
+        data: newItem,
+      });
+
+      setFileList([]);
+      handleOk();
+    } catch (error) {
+      console.error("Failed to update stock:", error);
+    }
   };
 
   const handlePreview = async (file) => {

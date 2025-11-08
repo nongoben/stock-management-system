@@ -8,9 +8,9 @@ export function FetchApiProvider({ children }) {
     createStore((set, get) => ({
       editingKey: null,
       setEditingKey: (key) => set({ editingKey: key }),
-      stockDataSource: [...stockDataSource],
+      stockDataSource: [],
       setStockDataSource: (newData) => set({ stockDataSource: [...newData] }),
-      orderDataSource: [...orderDataSource],
+      orderDataSource: [],
       setOrderDataSource: (newData) => set({ orderDataSource: [...newData] }),
     }))
   );

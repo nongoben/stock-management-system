@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { Col, Input, Button, Select, DatePicker } from "antd";
+import { Col, Button, Select, DatePicker } from "antd";
 import { RowContent } from "@Components/Layout";
 import ModalAddItem from "./features/ModalAddItem.jsx";
+import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useDropdownProducts } from "@Hooks/useDropdownApi";
+
+dayjs.extend(customParseFormat);
 
 export default function StockFilters() {
+  const { data: products } = useDropdownProducts();
   const [modalOpen, setModalOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { RangePicker } = DatePicker;
+  const dateFormat = "YYYY/MM/DD";
+
+  console.log(products);
 
   const handleOk = () => {
     setModalOpen(false);
@@ -24,80 +36,27 @@ export default function StockFilters() {
               .toLowerCase()
               .localeCompare((optionB?.label ?? "").toLowerCase())
           }
-          options={[
-            {
-              value: "1",
-              label: "Not Identified",
-            },
-            {
-              value: "2",
-              label: "Closed",
-            },
-            {
-              value: "3",
-              label: "Communicated",
-            },
-            {
-              value: "4",
-              label: "Identified",
-            },
-            {
-              value: "5",
-              label: "Resolved",
-            },
-            {
-              value: "6",
-              label: "Cancelled",
-            },
-          ]}
+          options={products?.data.map((product) => ({
+            value: product.code,
+            label: product.description,
+          }))}
         />
       </Col>
-      <Col md={6}>
-        <Select
-          size="large"
-          showSearch
-          style={{ width: "100%" }}
-          placeholder="เลือกลูกค้า"
-          optionFilterProp="label"
-          filterSort={(optionA, optionB) =>
-            (optionA?.label ?? "")
-              .toLowerCase()
-              .localeCompare((optionB?.label ?? "").toLowerCase())
-          }
-          options={[
-            {
-              value: "1",
-              label: "Not Identified",
-            },
-            {
-              value: "2",
-              label: "Closed",
-            },
-            {
-              value: "3",
-              label: "Communicated",
-            },
-            {
-              value: "4",
-              label: "Identified",
-            },
-            {
-              value: "5",
-              label: "Resolved",
-            },
-            {
-              value: "6",
-              label: "Cancelled",
-            },
-          ]}
-        />
+      <Col md={8}>
+        <RangePicker size="large" format={dateFormat} />
       </Col>
       <Col md={4} style={{ textAlign: "left" }}>
-        <Button type="primary" size="large" onClick={() => {}}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
+            queryClient.invalidateQueries({ queryKey: ["stocks"] });
+          }}
+        >
           ค้นหา
         </Button>
       </Col>
-      <Col md={8} style={{ textAlign: "right" }}>
+      <Col md={6} style={{ textAlign: "right" }}>
         <Button
           type="primary"
           className="bg-green-600 border-green-600 hover:bg-green-500 hover:border-green-500"

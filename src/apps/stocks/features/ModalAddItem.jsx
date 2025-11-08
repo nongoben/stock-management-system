@@ -1,16 +1,36 @@
-import { Modal, Button, Form, Input } from "antd";
+import { useEffect, useState } from "react";
+import { Modal, Button, Form, Input, Image, Upload } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
+import { useCreateStock } from "@Hooks/useStocksApi";
 
 export default function ModalAddItem({ open, handleOk }) {
-  const { stockDataSource, setStockDataSource } = useFetchApiStore((state) => ({
-    setStockDataSource: state.setStockDataSource,
-    stockDataSource: state.stockDataSource,
-  }));
+  const { stockDataSource, editingKey, setEditingKey } = useFetchApiStore(
+    (state) => ({
+      editingKey: state.editingKey,
+      setEditingKey: state.setEditingKey,
+      stockDataSource: state.stockDataSource,
+    })
+  );
+
+  const createStock = useCreateStock();
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.resetFields();
+    setFileList([]);
+  }, []);
 
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
   };
+
   const validateMessages = {
     required: "${label} is required!",
     types: {
@@ -21,23 +41,62 @@ export default function ModalAddItem({ open, handleOk }) {
       range: "${label} must be between ${min} and ${max}",
     },
   };
-  const onFinish = (values) => {
+
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const onFinish = async (values) => {
     const newItem = {
-      key: Date.now(),
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxK9b7kY5pO2orZ3dvb8DF9Flz6zInmbDRSA&s",
-      itemCode: values.item.code,
-      itemName: values.item.name,
+      productCode: values?.itemCode,
+      name: values?.itemName,
+      image: values?.itemImage,
       category: "General",
-      quantity: values.item.quantity,
+      quantity: values?.quantity,
+      price: values?.price,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
-    setStockDataSource([...stockDataSource, newItem]);
-    handleOk();
+
+    try {
+      await createStock.mutateAsync(newItem);
+
+      setFileList([]);
+      handleOk();
+    } catch (error) {
+      console.error("Failed to update stock:", error);
+    }
   };
+
+  const handlePreview = async (file) => {
+    try {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+
+      setPreviewImage(file.url || file.preview);
+      setPreviewOpen(true);
+    } catch (ex) {
+      console.error("Error previewing image:", ex);
+    }
+  };
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+  const uploadButton = (
+    <button style={{ border: 0, background: "none" }} type="button">
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
 
   return (
     <Modal
-      title="Add Item"
+      title="เพิ่มสินค้า"
       ok
       open={open}
       onOk={handleOk}
@@ -46,41 +105,65 @@ export default function ModalAddItem({ open, handleOk }) {
     >
       <Form
         {...layout}
+        form={form}
         name="nest-messages"
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
         validateMessages={validateMessages}
       >
         <Form.Item
+          label="Item Image"
+          name={["itemImage"]}
+          rules={[{ required: false }]}
+        >
+          <Upload
+            action={async (value) => {
+              const base64 = await getBase64(value);
+              form.setFieldsValue({ itemImage: base64 });
+              return "";
+            }}
+            fileList={fileList}
+            listType="picture-card"
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            {fileList.length >= 1 ? null : uploadButton}
+          </Upload>
+          {previewImage && (
+            <Image
+              wrapperStyle={{ display: "none" }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+              }}
+              src={previewImage}
+            />
+          )}
+        </Form.Item>
+        <Form.Item
           label="Item Code"
-          name={["item", "code"]}
+          name={["itemCode"]}
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={["item", "name"]}
+          name={["itemName"]}
           label="Item Name"
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={["item", "quantity"]}
+          name={["quantity"]}
           label="Quantity"
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name={["item", "price"]}
-          label="Price"
-          rules={[{ required: true }]}
-        >
+        <Form.Item name={["price"]} label="Price" rules={[{ required: true }]}>
           <Input />
-        </Form.Item>
-        <Form.Item name={["item", "details"]} label="Details">
-          <Input.TextArea />
         </Form.Item>
         <div className="flex justify-end">
           <Button key="back" onClick={handleOk}>
