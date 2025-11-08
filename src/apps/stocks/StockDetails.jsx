@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Table, Tooltip } from "antd";
+import { Button, Table, Tooltip, message, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
 
@@ -11,10 +11,20 @@ const StockDetails = () => {
       setEditingKey: state.setEditingKey,
     }));
 
+  const confirm = (key) => {
+    setStockDataSource(stockDataSource.filter((item) => item.key !== key));
+    message.success("Click on Yes");
+  };
+
+  const cancel = (e) => {
+    console.log(e);
+    message.error("Click on No");
+  };
+
   const columns = [
     {
-      title: "Image",
-      dataIndex: "image",
+      title: "รูปสินค้า",
+      dataIndex: "itemImage",
       width: 150,
       onHeaderCell: () => ({
         style: { backgroundColor: "#001529", color: "white" },
@@ -22,7 +32,7 @@ const StockDetails = () => {
       render: (text) => (
         <div>
           <img
-            style={{ width: "64px", height: "64px" }}
+            style={{ width: "120px", height: "100px" }}
             src={text}
             alt="Item Image"
           />
@@ -30,7 +40,7 @@ const StockDetails = () => {
       ),
     },
     {
-      title: "Item Code",
+      title: "รหัสสินค้า",
       dataIndex: "itemCode",
       width: 150,
       onHeaderCell: () => ({
@@ -39,7 +49,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Item Name",
+      title: "ชื่อสินค้า",
       dataIndex: "itemName",
       width: 200,
       onHeaderCell: () => ({
@@ -48,7 +58,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Category",
+      title: "ประเภทสินค้า",
       dataIndex: "category",
       width: 150,
       onHeaderCell: () => ({
@@ -57,7 +67,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Quantity",
+      title: "จำนวนสินค้า",
       dataIndex: "quantity",
       width: 100,
       onHeaderCell: () => ({
@@ -66,7 +76,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Price",
+      title: "ราคาสินค้า",
       dataIndex: "price",
       width: 100,
       onHeaderCell: () => ({
@@ -75,7 +85,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Supplier",
+      title: "ซัพพลายเออร์",
       dataIndex: "supplier",
       width: 150,
       onHeaderCell: () => ({
@@ -84,7 +94,7 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "Last Updated",
+      title: "วันที่แก้ไข",
       dataIndex: "lastUpdated",
       width: 150,
       onHeaderCell: () => ({
@@ -111,16 +121,16 @@ const StockDetails = () => {
             />
           </Tooltip>
           <Tooltip title="Delete">
-            <Button
-              type="primary"
-              onClick={() => {
-                setStockDataSource(
-                  stockDataSource.filter((item) => item.key !== text)
-                );
-              }}
-              danger
-              icon={<DeleteOutlined />}
-            />
+            <Popconfirm
+              title="แจ้งเตือน"
+              description="ต้องการที่จะลบสินค้าใช่หรือไหม?"
+              onConfirm={() => confirm(text)}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button type="primary" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
           </Tooltip>
         </div>
       ),

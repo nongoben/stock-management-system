@@ -6,25 +6,25 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 export const menuItems = [
   {
     key: "home",
-    label: "Home",
+    label: "หน้าหลัก",
     path: "/home",
     icon: <HomeIcon />,
   },
   {
     key: "stock",
-    label: "Stock",
+    label: "สต็อกสินค้า",
     path: "/stock",
     icon: <ShowChartIcon />,
   },
   {
     key: "order",
-    label: "Order",
+    label: "คำสั่งซื้อ",
     path: "/order",
     icon: <ShoppingCartIcon />,
   },
   {
     key: "report",
-    label: "Report",
+    label: "รายงาน",
     path: "/report",
     icon: <BarChartIcon />,
   },

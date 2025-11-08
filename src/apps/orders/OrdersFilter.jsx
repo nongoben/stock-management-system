@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Col, Input, Button, Select, DatePicker } from "antd";
 import { RowContent } from "@Components/Layout";
-import ModalAddItem from "./features/ModalAddItem.jsx";
+import dayjs from "dayjs";
 
-export default function StockFilters() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleOk = () => {
-    setModalOpen(false);
-  };
+export default function OrdersFilter() {
+  const dateFormat = "YYYY/MM/DD";
 
   return (
     <RowContent alignBottom>
       <Col md={6}>
+        <label>สินค้า</label>
         <Select
           size="large"
           showSearch
@@ -53,6 +50,7 @@ export default function StockFilters() {
         />
       </Col>
       <Col md={6}>
+        <label>ลูกค้า</label>
         <Select
           size="large"
           showSearch
@@ -92,21 +90,19 @@ export default function StockFilters() {
           ]}
         />
       </Col>
+      <Col md={4}>
+        <label>วันที่สั่งซื้อ</label>
+        <DatePicker
+          style={{ width: "100%" }}
+          size="large"
+          defaultValue={dayjs("2015/01/01", dateFormat)}
+          format={dateFormat}
+        />
+      </Col>
       <Col md={4} style={{ textAlign: "left" }}>
         <Button type="primary" size="large" onClick={() => {}}>
           ค้นหา
         </Button>
-      </Col>
-      <Col md={8} style={{ textAlign: "right" }}>
-        <Button
-          type="primary"
-          className="bg-green-600 border-green-600 hover:bg-green-500 hover:border-green-500"
-          size="large"
-          onClick={() => setModalOpen(true)}
-        >
-          เพิ่มสินค้า
-        </Button>
-        <ModalAddItem open={modalOpen} handleOk={handleOk} />
       </Col>
     </RowContent>
   );
