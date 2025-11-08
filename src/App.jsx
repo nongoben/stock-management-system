@@ -1,7 +1,13 @@
 import React from "react";
 import { menuItems } from "./constants/menu";
 import { Layout, Menu, theme } from "antd";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Home from "./apps/home";
 import Stock from "./apps/stocks";
 import Order from "./apps/orders";
@@ -59,10 +65,9 @@ const App = () => {
         </Header>
         <Content style={{ margin: "12px 12px 0", overflow: "initial" }}>
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Navigate to="/stock" replace />} />
             <Route path="/stock" element={<Stock />} />
             <Route path="/order" element={<Order />} />
-            <Route path="/report" element={<Report />} />
           </Routes>
         </Content>
         <Footer style={{ textAlign: "center" }}>

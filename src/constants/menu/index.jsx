@@ -5,12 +5,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 export const menuItems = [
   {
-    key: "home",
-    label: "หน้าหลัก",
-    path: "/home",
-    icon: <HomeIcon />,
-  },
-  {
     key: "stock",
     label: "สต็อกสินค้า",
     path: "/stock",
