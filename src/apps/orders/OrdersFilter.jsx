@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Col, Input, Button, Select, DatePicker } from "antd";
 import { RowContent } from "@Components/Layout";
 import dayjs from "dayjs";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function OrdersFilter() {
+  const queryClient = useQueryClient();
   const dateFormat = "YYYY/MM/DD";
 
   return (
@@ -100,7 +102,13 @@ export default function OrdersFilter() {
         />
       </Col>
       <Col md={4} style={{ textAlign: "left" }}>
-        <Button type="primary" size="large" onClick={() => {}}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
+            queryClient.refetchQueries({ queryKey: ["orders"] });
+          }}
+        >
           ค้นหา
         </Button>
       </Col>

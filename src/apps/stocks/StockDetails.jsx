@@ -9,9 +9,8 @@ import dayjs from "dayjs";
 const StockDetails = () => {
   const queryClient = useQueryClient();
 
-  const { data: stocksData } = useStocks();
+  const { data: stocksData, isFetching } = useStocks();
   const { mutate: deleteStock } = useDeleteStock();
-  const fetching = queryClient.isFetching({ queryKey: ["stocks"] });
 
   const dateFormat = "DD/MM/YYYY HH:mm:ss";
 
@@ -88,15 +87,6 @@ const StockDetails = () => {
       render: (text) => <div>{text}</div>,
     },
     {
-      title: "ประเภทสินค้า",
-      dataIndex: "category",
-      width: 150,
-      onHeaderCell: () => ({
-        style: { backgroundColor: "#001529", color: "white" },
-      }),
-      render: (text) => <div>{text}</div>,
-    },
-    {
       title: "จำนวนสินค้า",
       dataIndex: "quantity",
       width: 100,
@@ -144,7 +134,7 @@ const StockDetails = () => {
     {
       title: "Actions",
       dataIndex: "key",
-      width: 80,
+      width: 100,
       fixed: "right",
       onHeaderCell: () => ({
         style: { backgroundColor: "#001529", color: "white" },
@@ -178,7 +168,7 @@ const StockDetails = () => {
 
   return (
     <Table
-      loading={fetching}
+      loading={isFetching}
       columns={columns}
       dataSource={stockDataSource}
       pagination={false}

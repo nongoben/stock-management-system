@@ -6,7 +6,9 @@ import apiClient from "./client";
 export const ordersApi = {
   // Get all orders
   getAll: async (params = {}) => {
-    return await apiClient.get("orders", { searchParams: params }).json();
+    return await apiClient
+      .get("Order/GetAllOrders", { searchParams: params })
+      .json();
   },
 
   // Get order by ID

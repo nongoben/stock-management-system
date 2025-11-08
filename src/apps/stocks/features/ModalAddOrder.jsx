@@ -71,6 +71,7 @@ export default function ModalAddOrder({ open, handleOk }) {
       customerName: values?.customerName,
       quantity: values?.quantity,
       price: values?.price,
+      totalPrice: values?.totalPrice,
       orderDate: new Date().toISOString(),
     };
 
