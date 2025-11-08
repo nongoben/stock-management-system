@@ -16,7 +16,7 @@ export const ordersApi = {
 
   // Create new order
   create: async (data) => {
-    return await apiClient.post("orders", { json: data }).json();
+    return await apiClient.post("Order/CreateOrder", { json: data }).json();
   },
 
   // Update order
