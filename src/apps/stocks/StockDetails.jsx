@@ -42,11 +42,14 @@ const StockDetails = () => {
         itemName: item.name,
         category: item.category,
         quantity: item.quantity,
+        stockQuantity: item.stockQuantity,
+        soldQuantity: item.soldQuantity,
         price: item.price,
         supplier: item.supplier,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
       }));
+
       setStockDataSource(formattedData);
     }
   }, [stocksData]);
@@ -154,7 +157,27 @@ const StockDetails = () => {
         render: (text) => <div>{text}</div>,
       },
       {
-        title: "จำนวนสินค้าคงเหลือ",
+        title: "Stock",
+        dataIndex: "stockQuantity",
+        width: 150,
+        onHeaderCell: () => ({
+          style: { backgroundColor: "#001529", color: "white" },
+        }),
+        ...getColumnSearchProps("stockQuantity", "stockQuantity"),
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
+      },
+      {
+        title: "ขาย",
+        dataIndex: "soldQuantity",
+        width: 150,
+        onHeaderCell: () => ({
+          style: { backgroundColor: "#001529", color: "white" },
+        }),
+        ...getColumnSearchProps("soldQuantity", "soldQuantity"),
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
+      },
+      {
+        title: "คงเหลือ",
         dataIndex: "quantity",
         width: 150,
         onHeaderCell: () => ({
@@ -172,16 +195,6 @@ const StockDetails = () => {
         }),
         ...getColumnSearchProps("price", "ราคาสินค้า"),
         render: (text) => <div>{Number(text).toLocaleString()}</div>,
-      },
-      {
-        title: "ซัพพลายเออร์",
-        dataIndex: "supplier",
-        width: 150,
-        onHeaderCell: () => ({
-          style: { backgroundColor: "#001529", color: "white" },
-        }),
-        ...getColumnSearchProps("supplier", "ซัพพลายเออร์"),
-        render: (text) => <div>{text}</div>,
       },
       {
         title: "วันที่สร้าง",

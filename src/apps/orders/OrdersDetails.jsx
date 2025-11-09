@@ -21,8 +21,8 @@ const OrdersDetails = () => {
         key: item.id,
         orderDate: item.orderDate,
         customerName: item.customerName,
-        productCode: item.productCode,
-        productName: item.productName,
+        productCode: item.product.productCode,
+        productName: item.product.name,
         category: item.category,
         quantity: item.quantity,
         totalAmount: item.totalPrice,
@@ -93,7 +93,7 @@ const OrdersDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("orderDate", "วันที่สั่งซื้อ"),
-        render: (text) => <div>{text}</div>,
+        render: (text) => <div>{dayjs(text).format(dateFormat)}</div>,
       },
       {
         title: "ชื่อลูกค้า",
@@ -103,7 +103,7 @@ const OrdersDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("customerName", "ชื่อลูกค้า"),
-        render: (text) => <div>{dayjs(text).format(dateFormat)}</div>,
+        render: (text) => <div>{text}</div>,
       },
       {
         title: "รหัสสินค้า",
@@ -133,7 +133,7 @@ const OrdersDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("quantity", "จำนวนที่สั่งซื้อ"),
-        render: (text) => <div>{text}</div>,
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
       },
       {
         title: "จำนวนเงิน",
@@ -143,7 +143,7 @@ const OrdersDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("totalAmount", "จำนวนเงิน"),
-        render: (text) => <div>{text}</div>,
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
       },
     ],
     [orderDataSource]

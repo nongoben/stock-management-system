@@ -57,6 +57,8 @@ export default function ModalAddItem({ open, handleOk }) {
       image: values?.itemImage,
       category: "General",
       quantity: values?.quantity,
+      stockQuantity: values?.stockQuantity,
+      soldQuantity: values?.soldQuantity,
       price: values?.price,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -112,7 +114,7 @@ export default function ModalAddItem({ open, handleOk }) {
         validateMessages={validateMessages}
       >
         <Form.Item
-          label="Item Image"
+          label="รูปสินค้า"
           name={["itemImage"]}
           rules={[{ required: false }]}
         >
@@ -142,7 +144,7 @@ export default function ModalAddItem({ open, handleOk }) {
           )}
         </Form.Item>
         <Form.Item
-          label="Item Code"
+          label="รหัสสินค้า"
           name={["itemCode"]}
           rules={[{ required: true }]}
         >
@@ -150,24 +152,30 @@ export default function ModalAddItem({ open, handleOk }) {
         </Form.Item>
         <Form.Item
           name={["itemName"]}
-          label="Item Name"
+          label="ชื่อสินค้า"
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={["quantity"]}
-          label="Quantity"
+          name={["stockQuantity"]}
+          label="จำนวนในสต็อก"
           rules={[{ required: true }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name={["price"]} label="Price" rules={[{ required: true }]}>
+        <Form.Item name={["soldQuantity"]} label="จำนวนที่ขาย">
+          <Input />
+        </Form.Item>
+        <Form.Item name={["quantity"]} label="จำนวนคงเหลือ">
+          <Input />
+        </Form.Item>
+        <Form.Item name={["price"]} label="ราคา" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <div className="flex justify-end">
           <Button key="back" onClick={handleOk}>
-            Return
+            ยกเลิก
           </Button>
           <Button
             className="ml-3"
@@ -175,7 +183,7 @@ export default function ModalAddItem({ open, handleOk }) {
             type="primary"
             htmlType="submit"
           >
-            Submit
+            บันทึก
           </Button>
         </div>
       </Form>
