@@ -5,7 +5,7 @@ import ModalAddItem from "./features/ModalAddItem.jsx";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { useDropdownProducts } from "@Hooks/useDropdownApi";
+import { useDropdownProducts } from "@Hooks/useDropDownApi";
 import ModalAddOrder from "./features/ModalAddOrder.jsx";
 
 dayjs.extend(customParseFormat);
@@ -24,7 +24,6 @@ export default function StockFilters() {
     setModalOpen(false);
     setModalAddOrderOpen(false);
   };
-
   return (
     <RowContent alignBottom>
       <Col md={6}>
