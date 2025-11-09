@@ -154,14 +154,14 @@ const StockDetails = () => {
         render: (text) => <div>{text}</div>,
       },
       {
-        title: "จำนวนสินค้า",
+        title: "จำนวนสินค้าคงเหลือ",
         dataIndex: "quantity",
-        width: 120,
+        width: 150,
         onHeaderCell: () => ({
           style: { backgroundColor: "#001529", color: "white" },
         }),
-        ...getColumnSearchProps("quantity", "จำนวนสินค้า"),
-        render: (text) => <div>{text}</div>,
+        ...getColumnSearchProps("quantity", "จำนวนสินค้าคงเหลือ"),
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
       },
       {
         title: "ราคาสินค้า",
@@ -171,7 +171,7 @@ const StockDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("price", "ราคาสินค้า"),
-        render: (text) => <div>{text}</div>,
+        render: (text) => <div>{Number(text).toLocaleString()}</div>,
       },
       {
         title: "ซัพพลายเออร์",
@@ -298,7 +298,7 @@ const StockDetails = () => {
       {
         title: "Actions",
         dataIndex: "key",
-        width: 100,
+        width: 80,
         fixed: "right",
         onHeaderCell: () => ({
           style: { backgroundColor: "#001529", color: "white" },
