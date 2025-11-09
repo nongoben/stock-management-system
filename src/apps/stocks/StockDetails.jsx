@@ -20,7 +20,6 @@ import dayjs from "dayjs";
 
 const StockDetails = () => {
   const queryClient = useQueryClient();
-  const [searchText, setSearchText] = useState({});
 
   const { data: stocksData, isFetching } = useStocks();
   const { mutate: deleteStock } = useDeleteStock();

@@ -3,9 +3,12 @@ import { Table, message, Input, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
 import { useOrders } from "@Hooks/useOrdersApi";
+import dayjs from "dayjs";
 
 const OrdersDetails = () => {
   const { data: ordersData, isFetching } = useOrders();
+
+  const dateFormat = "DD/MM/YYYY HH:mm:ss";
 
   const { orderDataSource, setOrderDataSource } = useFetchApiStore((state) => ({
     setOrderDataSource: state.setOrderDataSource,
@@ -100,7 +103,7 @@ const OrdersDetails = () => {
           style: { backgroundColor: "#001529", color: "white" },
         }),
         ...getColumnSearchProps("customerName", "ชื่อลูกค้า"),
-        render: (text) => <div>{text}</div>,
+        render: (text) => <div>{dayjs(text).format(dateFormat)}</div>,
       },
       {
         title: "รหัสสินค้า",
