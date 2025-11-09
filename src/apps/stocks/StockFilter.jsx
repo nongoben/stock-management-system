@@ -27,6 +27,7 @@ export default function StockFilters() {
   return (
     <RowContent alignBottom>
       <Col md={6}>
+        <label>สินค้า</label>
         <Select
           size="large"
           showSearch
@@ -45,6 +46,8 @@ export default function StockFilters() {
         />
       </Col>
       <Col md={6}>
+        <label>วันที่สร้าง</label>
+        <br />
         <RangePicker size="large" format={dateFormat} />
       </Col>
       <Col md={4} style={{ textAlign: "left" }}>

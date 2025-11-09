@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function OrdersFilter() {
   const queryClient = useQueryClient();
   const dateFormat = "YYYY/MM/DD";
+  const { RangePicker } = DatePicker;
 
   return (
     <RowContent alignBottom>
@@ -94,12 +95,7 @@ export default function OrdersFilter() {
       </Col>
       <Col md={4}>
         <label>วันที่สั่งซื้อ</label>
-        <DatePicker
-          style={{ width: "100%" }}
-          size="large"
-          defaultValue={dayjs("2015/01/01", dateFormat)}
-          format={dateFormat}
-        />
+        <RangePicker size="large" format={dateFormat} />
       </Col>
       <Col md={4} style={{ textAlign: "left" }}>
         <Button
