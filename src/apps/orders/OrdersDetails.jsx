@@ -25,6 +25,7 @@ const OrdersDetails = () => {
         productCode: item.product.productCode,
         productName: item.product.name,
         category: item.category,
+        salesPerson: item.salesPerson,
         quantity: item.quantity,
         totalAmount: item.totalPrice,
       }));
@@ -95,6 +96,16 @@ const OrdersDetails = () => {
         }),
         ...getColumnSearchProps("orderDate", "วันที่สั่งซื้อ"),
         render: (text) => <div>{dayjs(text).format(dateFormat)}</div>,
+      },
+      {
+        title: "พนักงานขาย",
+        dataIndex: "salesPerson",
+        width: 150,
+        onHeaderCell: () => ({
+          style: { backgroundColor: "#001529", color: "white" },
+        }),
+        ...getColumnSearchProps("salesPerson", "พนักงานขาย"),
+        render: (text) => <div>{text}</div>,
       },
       {
         title: "ชื่อลูกค้า",
