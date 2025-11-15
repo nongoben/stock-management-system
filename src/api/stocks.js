@@ -7,7 +7,7 @@ export const stocksApi = {
   // Get all stocks
   getAll: async (params = {}) => {
     return await apiClient
-      .get("Product/GetAllProducts", { searchParams: params })
+      .get("Product/GetAllProduct", { searchParams: params })
       .json();
   },
 

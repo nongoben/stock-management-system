@@ -1,13 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useContext } from "react";
 import { Table, message, Input, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
 import { useOrders } from "@Hooks/useOrdersApi";
 import dayjs from "dayjs";
+import { OrderContext } from "../orders/index.jsx";
 
 const OrdersDetails = () => {
-  const { data: ordersData, isFetching } = useOrders();
-
+  const filterContext = useContext(OrderContext);
+  const { data: ordersData, isFetching } = useOrders(filterContext.filters);
   const dateFormat = "DD/MM/YYYY HH:mm:ss";
 
   const { orderDataSource, setOrderDataSource } = useFetchApiStore((state) => ({
