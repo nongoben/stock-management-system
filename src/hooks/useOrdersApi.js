@@ -13,6 +13,13 @@ export const useOrders = (params = {}) => {
   });
 };
 
+export const useOrdersSalesTarget = (params = {}) => {
+  return useQuery({
+    queryKey: ["salesTarget", params],
+    queryFn: () => ordersApi.getAllSalesTarget(params),
+  });
+};
+
 // Get order by ID
 export const useOrder = (id) => {
   return useQuery({

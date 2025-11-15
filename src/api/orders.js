@@ -11,6 +11,12 @@ export const ordersApi = {
       .json();
   },
 
+  getAllSalesTarget: async (params = {}) => {
+    return await apiClient
+      .get("Order/GetAllOrdersSalesRanking", { searchParams: params })
+      .json();
+  },
+
   // Get order by ID
   getById: async (id) => {
     return await apiClient.get(`orders/${id}`).json();

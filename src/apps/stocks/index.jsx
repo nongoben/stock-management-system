@@ -25,7 +25,7 @@ const Stocks = () => {
         <BoxContent style={{ marginBottom: 16 }}>
           <StockFilters />
         </BoxContent>
-        <BoxContent>
+        <BoxContent >
           <StockDetails />
         </BoxContent>
         <ModalEditItem />
