@@ -6,7 +6,7 @@ import { FetchApiProvider } from "@Contexts/FetchApi.jsx";
 
 const Stocks = () => {
   return (
-    <FetchApiProvider>
+    <>
       <BoxContent style={{ marginBottom: 16 }}>
         <StockFilters />
       </BoxContent>
@@ -14,7 +14,7 @@ const Stocks = () => {
         <StockDetails />
       </BoxContent>
       <ModalEditItem />
-    </FetchApiProvider>
+    </>
   );
 };
 export default Stocks;

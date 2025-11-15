@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import Stock from "./apps/stocks";
 import Order from "./apps/orders";
+import { DialogSuccess } from "./components/DialogSuccess";
+import { FetchApiProvider } from "@Contexts/FetchApi.jsx";
 
 const { Header, Content, Footer, Sider } = Layout;
 const siderStyle = {
@@ -41,38 +43,41 @@ const App = () => {
   };
 
   return (
-    <Layout hasSider>
-      <Sider style={siderStyle}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={getKeyByPath(location.pathname)}
-          items={menuItems}
-          onClick={(item) => {
-            const path = menuItems.find((m) => m.key === item.key)?.path;
-            if (path) navigate(path);
-          }}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ background: colorBgContainer }}>
-          <h1 className="text-center text-3xl mt-3 p-0 font-bold">
-            {getNameByPath(location.pathname)}
-          </h1>
-        </Header>
-        <Content style={{ margin: "12px 12px 0", overflow: "initial" }}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/stock" replace />} />
-            <Route path="/stock" element={<Stock />} />
-            <Route path="/order" element={<Order />} />
-          </Routes>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Nong ©{new Date().getFullYear()} Created
-        </Footer>
+    <FetchApiProvider>
+      <Layout hasSider>
+        <Sider style={siderStyle}>
+          <div className="demo-logo-vertical" />
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={getKeyByPath(location.pathname)}
+            items={menuItems}
+            onClick={(item) => {
+              const path = menuItems.find((m) => m.key === item.key)?.path;
+              if (path) navigate(path);
+            }}
+          />
+        </Sider>
+        <Layout>
+          <Header style={{ background: colorBgContainer }}>
+            <h1 className="text-center text-3xl mt-3 p-0 font-bold">
+              {getNameByPath(location.pathname)}
+            </h1>
+          </Header>
+          <Content style={{ margin: "12px 12px 0", overflow: "initial" }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/stock" replace />} />
+              <Route path="/stock" element={<Stock />} />
+              <Route path="/order" element={<Order />} />
+            </Routes>
+          </Content>
+          <Footer style={{ textAlign: "center" }}>
+            Nong ©{new Date().getFullYear()} Created
+          </Footer>
+          <DialogSuccess />
+        </Layout>
       </Layout>
-    </Layout>
+    </FetchApiProvider>
   );
 };
 export default App;

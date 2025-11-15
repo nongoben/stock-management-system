@@ -12,6 +12,8 @@ export function FetchApiProvider({ children }) {
       setStockDataSource: (newData) => set({ stockDataSource: [...newData] }),
       orderDataSource: [],
       setOrderDataSource: (newData) => set({ orderDataSource: [...newData] }),
+      showDialogSuccess: false,
+      setShowDialogSuccess: (value) => set({ showDialogSuccess: value }),
     }))
   );
 

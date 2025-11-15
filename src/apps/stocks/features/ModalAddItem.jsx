@@ -5,13 +5,9 @@ import { useFetchApiStore } from "@Hooks/fetchApiStore";
 import { useCreateStock } from "@Hooks/useStocksApi";
 
 export default function ModalAddItem({ open, handleOk }) {
-  const { stockDataSource, editingKey, setEditingKey } = useFetchApiStore(
-    (state) => ({
-      editingKey: state.editingKey,
-      setEditingKey: state.setEditingKey,
-      stockDataSource: state.stockDataSource,
-    })
-  );
+  const { setShowDialogSuccess } = useFetchApiStore((state) => ({
+    setShowDialogSuccess: state.setShowDialogSuccess,
+  }));
 
   const createStock = useCreateStock();
 
@@ -65,10 +61,13 @@ export default function ModalAddItem({ open, handleOk }) {
     };
 
     try {
-      await createStock.mutateAsync(newItem);
-
-      setFileList([]);
-      handleOk();
+      const result = await createStock.mutateAsync(newItem);
+      if (result.success === true) {
+        form.resetFields();
+        setFileList([]);
+        handleOk();
+        setShowDialogSuccess(true);
+      }
     } catch (error) {
       console.error("Failed to update stock:", error);
     }

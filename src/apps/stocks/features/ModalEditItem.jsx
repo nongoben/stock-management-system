@@ -5,13 +5,13 @@ import { useFetchApiStore } from "@Hooks/fetchApiStore";
 import { useUpdateStock } from "@Hooks/useStocksApi";
 
 export default function ModalEditItem() {
-  const { stockDataSource, editingKey, setEditingKey } = useFetchApiStore(
-    (state) => ({
+  const { stockDataSource, editingKey, setEditingKey, setShowDialogSuccess } =
+    useFetchApiStore((state) => ({
       editingKey: state.editingKey,
       setEditingKey: state.setEditingKey,
       stockDataSource: state.stockDataSource,
-    })
-  );
+      setShowDialogSuccess: state.setShowDialogSuccess,
+    }));
 
   const updateStock = useUpdateStock();
 
@@ -91,13 +91,15 @@ export default function ModalEditItem() {
     };
 
     try {
-      await updateStock.mutateAsync({
+      const result = await updateStock.mutateAsync({
         id: itemToEdit?.key,
         data: newItem,
       });
-
-      setFileList([]);
-      handleOk();
+      if (result.success === true) {
+        setFileList([]);
+        handleOk();
+        setShowDialogSuccess(true);
+      }
     } catch (error) {
       console.error("Failed to update stock:", error);
     }
