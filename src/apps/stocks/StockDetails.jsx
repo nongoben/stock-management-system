@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import {
   Button,
   Table,
@@ -17,11 +17,13 @@ import { useFetchApiStore } from "@Hooks/fetchApiStore";
 import { useStocks, useDeleteStock } from "@Hooks/useStocksApi";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { StockContext } from "../stocks/index.jsx";
 
 const StockDetails = () => {
   const queryClient = useQueryClient();
+  const filterContext = useContext(StockContext);
 
-  const { data: stocksData, isFetching } = useStocks();
+  const { data: stocksData, isFetching } = useStocks(filterContext.filters);
   const { mutate: deleteStock } = useDeleteStock();
 
   const dateFormat = "DD/MM/YYYY HH:mm:ss";
