@@ -35,3 +35,12 @@ body {
 .custom-filter-table .ant-table-filter-trigger-container-open .ant-table-filter-trigger {
   color: white !important;
 }
+
+/* Row with zero quantity */
+.row-red > td {
+  background-color: #ffcccc !important;
+}
+
+.row-red:hover > td {
+  background-color: #ffb3b3 !important;
+}

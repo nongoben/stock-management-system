@@ -358,6 +358,7 @@ const StockDetails = () => {
       style={{
         "--filter-icon-color": "white",
       }}
+      rowClassName={(record) => (record.quantity === 0 ? "row-red" : "")}
     />
   );
 };
