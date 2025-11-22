@@ -7,8 +7,13 @@ export const DialogSuccess = () => {
       setShowDialogSuccess: state.setShowDialogSuccess,
     })
   );
+
+  console.log("showDialogSuccess", showDialogSuccess);
   return (
-    <div id="modal" style={{ display: showDialogSuccess ? "block" : "none" }}>
+    <div
+      id="modal"
+      style={{ display: showDialogSuccess === true ? "block" : "none" }}
+    >
       <div class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto">
         <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
           <svg

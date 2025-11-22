@@ -1,20 +1,40 @@
 import React, { useMemo, useContext } from "react";
-import { Table, message, Input, Button, Space } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  Table,
+  message,
+  Input,
+  Button,
+  Space,
+  Tooltip,
+  Popconfirm,
+} from "antd";
+import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
-import { useOrders } from "@Hooks/useOrdersApi";
+import { useOrders, useDeleteOrder } from "@Hooks/useOrdersApi";
 import dayjs from "dayjs";
 import { OrderContext } from "../orders/index.jsx";
 
 const OrdersDetails = () => {
   const filterContext = useContext(OrderContext);
   const { data: ordersData, isFetching } = useOrders(filterContext.filters);
+  const { mutate: deleteOrder } = useDeleteOrder();
+
   const dateFormat = "DD/MM/YYYY HH:mm:ss";
 
   const { orderDataSource, setOrderDataSource } = useFetchApiStore((state) => ({
     setOrderDataSource: state.setOrderDataSource,
     orderDataSource: state.orderDataSource,
   }));
+
+  const confirm = (key) => {
+    deleteOrder(key);
+    message.success("Click on Yes");
+  };
+
+  const cancel = (e) => {
+    console.log(e);
+    message.error("Click on No");
+  };
 
   React.useEffect(() => {
     if (ordersData) {
@@ -156,6 +176,32 @@ const OrdersDetails = () => {
         }),
         ...getColumnSearchProps("totalAmount", "จำนวนเงิน"),
         render: (text) => <div>{Number(text).toLocaleString()}</div>,
+      },
+      {
+        title: "Actions",
+        dataIndex: "key",
+        width: 80,
+        fixed: "right",
+        onHeaderCell: () => ({
+          style: { backgroundColor: "#001529", color: "white" },
+        }),
+        render: (text) => (
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {" "}
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="แจ้งเตือน"
+                description="ต้องการที่จะลบคำสั่งซื้อใช่หรือไหม?"
+                onConfirm={() => confirm(text)}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" danger icon={<DeleteOutlined />} />
+              </Popconfirm>
+            </Tooltip>
+          </div>
+        ),
       },
     ],
     [orderDataSource]

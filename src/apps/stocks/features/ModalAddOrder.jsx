@@ -10,13 +10,17 @@ import {
   AutoComplete,
 } from "antd";
 import { useStocks } from "@Hooks/useStocksApi";
-import { useDropdownProducts } from "@Hooks/useDropDownApi";
+import {
+  useDropdownProducts,
+  useDropdownSalesPersons,
+} from "@Hooks/useDropDownApi";
 import { useCreateOrder } from "@Hooks/useOrdersApi";
 import { useFetchApiStore } from "@Hooks/fetchApiStore";
 
 export default function ModalAddOrder({ open, handleOk }) {
   const { data: stocksData } = useStocks();
   const { data: products } = useDropdownProducts();
+  const { data: salesPersons } = useDropdownSalesPersons();
   const [previewImage, setPreviewImage] = useState("");
   const [error, setError] = useState(null);
   const { setShowDialogSuccess } = useFetchApiStore((state) => ({
@@ -116,16 +120,12 @@ export default function ModalAddOrder({ open, handleOk }) {
     }
   };
 
-  const [optionsOriginal, setOptionsOriginal] = useState([
-    {
-      value: "พนักงานขาย A",
-    },
-    {
-      value: "พนักงานขาย B",
-    },
-  ]);
+  const [options, setOptions] = useState(
+    salesPersons?.data.map((person) => ({
+      value: person.description,
+    }))
+  );
 
-  const [options, setOptions] = useState(optionsOriginal);
   const salesPerson = useRef("");
 
   const onSalesPersonChange = (data) => {
@@ -133,7 +133,10 @@ export default function ModalAddOrder({ open, handleOk }) {
   };
 
   const onSalesPersonSearch = (data) => {
-    var filteredOptions = [];
+    const optionsOriginal = salesPersons?.data.map((person) => ({
+      value: person.description,
+    }));
+    let filteredOptions = [];
     if (data) {
       filteredOptions = optionsOriginal.filter((option) =>
         option.value.toLowerCase().includes(data.toLowerCase())

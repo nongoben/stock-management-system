@@ -70,6 +70,7 @@ export const useDeleteOrder = () => {
     mutationFn: (id) => ordersApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["salesTarget"] });
     },
   });
 };

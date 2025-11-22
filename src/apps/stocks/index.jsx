@@ -21,15 +21,13 @@ const Stocks = () => {
 
   return (
     <StockContext.Provider value={{ filters, setFilters }}>
-      <FetchApiProvider>
-        <BoxContent style={{ marginBottom: 16 }}>
-          <StockFilters />
-        </BoxContent>
-        <BoxContent >
-          <StockDetails />
-        </BoxContent>
-        <ModalEditItem />
-      </FetchApiProvider>
+      <BoxContent style={{ marginBottom: 16 }}>
+        <StockFilters />
+      </BoxContent>
+      <BoxContent>
+        <StockDetails />
+      </BoxContent>
+      <ModalEditItem />
     </StockContext.Provider>
   );
 };

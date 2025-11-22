@@ -34,7 +34,7 @@ export const ordersApi = {
 
   // Delete order
   delete: async (id) => {
-    return await apiClient.delete(`orders/${id}`).json();
+    return await apiClient.delete(`Order/DeleteOrder/${id}`).json();
   },
 
   // Update order status
